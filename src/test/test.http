@@ -1,0 +1,28 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+
+### Get schema (no need read authority)
+http://localhost:8080/graphql?query={__schema {types {name, fields {name}}}}
+Authorization: Basic user-noread user
+
+### Get all manufacturers via GET (read authority needed) - OK
+http://localhost:8080/graphql?query={getAllManufacturers{name, description, carModels {name, description}}}
+Authorization: Basic user-read user
+
+### Get all manufacturers via GET (read authority needed) - ERROR
+http://localhost:8080/graphql?query={getAllManufacturers{name, description, carModels {name, description}}}
+Authorization: Basic user-noread user
+
+### Get all manufacturers via GET vith MANUAL (read authority needed) - OK
+http://localhost:8080/graphql-manual?query={getAllManufacturers{name, description, carModels {name, description}}}
+Authorization: Basic user-read user
+
+### Get all manufacturers via GET vith MANUAL (read authority needed) - ERROR
+http://localhost:8080/graphql-manual?query={getAllManufacturers{name, description, carModels {name, description}}}
+Authorization: Basic user-noread user
+
+### Get all manufacturers via POST
+POST http://localhost:8080/graphql
+Content-Type: application/json
+Authorization: Basic admin admin
+
+{"query": "{getAllManufacturers{name, description, carModels {name, description}}}"}
