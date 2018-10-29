@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.cinimex.rnd</groupId>
-    <artifactId>graphql-demo</artifactId>
+    <artifactId>graphql-demo-spring</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>graphql-demo</name>
+    <name>graphql-demo-spring</name>
     <description>GraphQL demo project for Spring Boot</description>
 
     <parent>
@@ -32,6 +32,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Spring Framework AOP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
         <!-- Spring Framework Caching Support -->

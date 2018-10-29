@@ -1,13 +1,14 @@
 package ru.cinimex.rnd.graphqltest.graphql;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import com.coxautodev.graphql.tools.GraphQLResolver;
 import graphql.GraphQLException;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import ru.cinimex.rnd.graphqltest.model.documents.Manufacturer;
 import ru.cinimex.rnd.graphqltest.model.documents.services.ManufacturerService;

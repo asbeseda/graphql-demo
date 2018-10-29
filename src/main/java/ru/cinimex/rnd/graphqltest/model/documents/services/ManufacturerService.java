@@ -43,8 +43,6 @@ public class ManufacturerService {
         manufacturerRepository.deleteById(id);
     }
 
-
-
     @PreAuthorize("hasRole('ROLE_READ')")
     @Cacheable(cacheNames = "manufacturers_all")
     public List<Manufacturer> findAll(){

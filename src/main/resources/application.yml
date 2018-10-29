@@ -17,8 +17,16 @@ logging:
     graphql: TRACE
     graphql.execution.ExecutionStrategy: INFO
 
+
+# See autoconfiguration options at
+# https://github.com/graphql-java-kickstart/graphql-spring-boot/tree/master/graphql-spring-boot-autoconfigure/src/main/java/com/oembedler/moon/graphql/boot
+
 graphql:
   servlet:
     mapping: /graphql
     enabled: true
     corsEnabled: true
+    tracing-enabled: true
+
+
+

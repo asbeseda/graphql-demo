@@ -1,3 +1,9 @@
+## Test graphql
+http://127.0.0.1:8080/
+
+## HTTP header для graphql-playground
+    {"Authorization": "Basic admin admin"}
+
 ## Список всех производителей
     {manufacturers{name, description, carModels{name, description}}}
 
