@@ -1,0 +1,11 @@
+{
+    "changeBook": {
+        "id": "book_1_1",
+        "author": {
+            "id": "author_1"
+        },
+        "releaseDate": "26 June 1997",
+        "title": "newtitle",
+        "description": "Some description about Harry Potter and the Philosopher's Stone"
+    }
+}

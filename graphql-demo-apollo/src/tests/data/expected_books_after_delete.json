@@ -1,0 +1,15 @@
+{
+    "books": [
+        {
+            "id": "book_1_2",
+            "author": {
+                "id": "author_1",
+                "name": "Rowling, J. K."
+            },
+            "releaseDate": "2 July 1998",
+            "title": "Harry Potter and the Chamber of Secrets",
+            "description": "Some description about Harry Potter and the Chamber of Secrets",
+            "comments": []
+        }
+    ]
+}

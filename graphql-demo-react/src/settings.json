@@ -1,0 +1,4 @@
+{
+  "AUTH_HEADER": "x-token",
+  "API_URL": "http://localhost:4000"
+}

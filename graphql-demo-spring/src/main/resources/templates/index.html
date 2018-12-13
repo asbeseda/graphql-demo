@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>GraphQL test</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+    <div th:replace="fragments/header :: header"/>
+    <div class="container">
+        <h1>GraphQL tools</h1>
+        <ul>
+            <li><a href="/graphiql"><span>Graph<b><em>i</em></b>QL Console (for /graphql)</span></a></li>
+            <li><a href="/graphiql_manual"><span>Graph<b><em>i</em></b>QL Console (for /graphql_manual)</span></a></li>
+            <li><a href="/graphql-docs"><span>GraphQL Documentation Explorer</span></a></li>
+            <li><a href="/graphql-playground"><span>GraphQL Playground</span></a></li>
+            <li><a href="/graphql-voyager"><span>GraphQL Voyager</span></a></li>
+        </ul>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

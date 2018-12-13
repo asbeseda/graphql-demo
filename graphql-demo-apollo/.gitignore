@@ -1,0 +1,9 @@
+/node_modules/
+/.idea/
+*.iml
+/logs/*.log
+/dist/
+/.scannerwork/
+/.nyc_output
+/coverage
+/package-lock.json

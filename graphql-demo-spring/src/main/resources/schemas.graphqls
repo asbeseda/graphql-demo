@@ -1,0 +1,83 @@
+enum DeleteConfirm {SURE}
+
+type Query {
+    manufacturers: [Manufacturer]
+    manufacturer(id: String, name: String): Manufacturer
+    manufacturerNew(new: ManufacturerNew!): Manufacturer
+
+    carModelNew(manufacturer: String!, new: CarModelNew!): CarModel
+
+    cachies(name: String): [Cache]
+}
+
+type Manufacturer {
+    id: String!
+    name: String!
+    description: String
+
+    update(update: ManufacturerUpdate): Manufacturer
+    delete(confirm: DeleteConfirm!):Boolean
+
+    carModels: [CarModel]
+    carModel(name: String): CarModel
+}
+input ManufacturerNew {name: String!, description: String}
+input ManufacturerUpdate {name: String, description: String}
+
+type CarModel {
+    id: String!
+    manufacturer: Manufacturer!
+    name: String!
+    description: String
+
+    #update(update: CarModelUpdate): CarModel
+    #delete(confirm: DeleteConfirm!):Boolean
+}
+input CarModelNew {name: String!, description: String}
+input CarModelUpdate {name: String, description: String}
+
+type Cache {
+    name: String!
+    configuration: CacheConfiguration!
+    statistics: CacheStatistics!
+    keys: [String]
+}
+
+type CacheConfiguration {
+    timeToIdleSeconds: Long
+    timeToLiveSeconds: Long
+
+    maxBytesLocalHeap: Long
+    maxBytesLocalOffHeap: Long
+    maxBytesLocalDisk: Long
+
+    maxEntriesInCache: Long
+    maxEntriesLocalHeap: Long
+    maxEntriesLocalDisk: Long
+}
+
+type CacheStatistics {
+    localHeapSize: Long
+    localOffHeapSize: Long
+    localDiskSize: Long
+
+    localHeapSizeInBytes: Long
+    localOffHeapSizeInBytes: Long
+    localDiskSizeInBytes: Long
+
+    cacheHitRatio: Float
+    cacheHitCount: Long
+    localHeapHitCount: Long
+    localOffHeapHitCount: Long
+    localDiskHitCount: Long
+
+    cacheMissCount: Long
+	cacheMissNotFoundCount: Long
+	cacheMissExpiredCount: Long
+	
+	cachePutCount: Long
+	cachePutAddedCount: Long
+	cachePutUpdatedCount: Long
+
+    cacheRemoveCount: Long
+}

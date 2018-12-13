@@ -1,0 +1,9 @@
+/github
+/target/
+/node_modules/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

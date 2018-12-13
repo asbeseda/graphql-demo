@@ -1,0 +1,182 @@
+{
+    "findBook": {
+        "id": "book_1_1",
+        "author": {
+            "id": "author_1",
+            "name": "Rowling, J. K."
+        },
+        "releaseDate": "26 June 1997",
+        "title": "Harry Potter and the Philosopher's Stone",
+        "description": "Some description about Harry Potter and the Philosopher's Stone",
+        "comments": [
+            {
+                "id": "comment_1_1_1",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #1 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_2",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #2 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_3",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #3 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_4",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #4 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_5",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #5 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_6",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #6 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_7",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #7 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_8",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #8 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_9",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #9 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_10",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #10 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_11",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #11 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_12",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #12 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_13",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #13 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_14",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #14 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_15",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #15 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_16",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #16 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_17",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #17 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_18",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #18 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_19",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #19 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_20",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #20 for Harry Potter and the Philosopher's Stone"
+            },
+            {
+                "id": "comment_1_1_21",
+                "user": {
+                    "id": "admin",
+                    "name": "Администратор"
+                },
+                "content": "Comment #21 for Harry Potter and the Philosopher's Stone"
+            }
+        ]
+    }
+}

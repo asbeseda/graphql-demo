@@ -1,0 +1,8 @@
+{
+    "findUser": {
+        "id": "admin",
+        "name": "Администратор",
+        "login": "admin",
+        "roles": "ADMIN"
+    }
+}

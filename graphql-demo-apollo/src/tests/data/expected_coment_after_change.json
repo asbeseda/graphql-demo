@@ -1,0 +1,12 @@
+{
+    "changeComment": {
+        "id": "comment_1_1_21",
+        "book": {
+            "id": "book_1_1"
+        },
+        "user": {
+            "id": "admin"
+        },
+        "content": "newcontent"
+    }
+}
