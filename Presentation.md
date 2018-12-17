@@ -30,26 +30,18 @@ GraphQL - спецификация
     https://habr.com/post/336758/                   - Пишем GraphQL API сервер на Yii2 с клиентом на Polymer + Apollo. Часть 1. Сервер
     https://habr.com/post/412847/                   - graphql — оптимизация запросов к базе данных
     https://habr.com/post/343872/                   - GraphQL — новый взгляд на API. Ч.1
-    
 
 GraphQL JS Implementation
     https://github.com/graphql/graphql-js       - facebook graphql server
     https://facebook.github.io/relay/           - facebook graphql client
     
 Apollo
-    https://www.apollographql.com/client
-    https://github.com/apollographql/apollo-client
+    https://www.apollographql.com/client				https://github.com/apollographql/apollo-client
+    https://www.apollographql.com/server				https://github.com/apollographql/apollo-server
+    https://github.com/apollographql/react-apollo		https://www.apollographql.com/docs/react/
+    https://github.com/apollographql/apollo-angular		https://www.apollographql.com/docs/angular/
     
     https://www.apollographql.com/engine
-    
-    https://www.apollographql.com/server
-    https://github.com/apollographql/apollo-server
-    
-    https://github.com/apollographql/react-apollo
-    https://www.apollographql.com/docs/react/
-    
-    https://github.com/apollographql/apollo-angular
-    https://www.apollographql.com/docs/angular/
     
 AWS AppSync
     https://blog.apollographql.com/aws-appsync-powered-by-apollo-df61eb706183
@@ -79,5 +71,3 @@ GraphqlFieldVisibility
     https://stackoverflow.com/questions/45842252/graphql-permissions-documentation
 
 Tracing
-
-VulcanJS

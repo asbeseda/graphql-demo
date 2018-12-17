@@ -1,17 +1,17 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-const app = require("./../app");
+const server = require("./../server");
 const postGraphQL = require("./test_api").postGraphQL;
 const loadJSONFile = require("./test_api").loadJSONFile;
 
 describe(`Test COMMENTS`, () => {
     before(async function() {
-        await app.start();
+        await server.start();
     });
 
     after(async function() {
-        await app.stop();
+        await server.stop();
     });
 
     describe(`Test for unauthorized user`, () => {

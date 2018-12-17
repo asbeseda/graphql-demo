@@ -17,49 +17,39 @@ export const createExpressApp = () => {
     return expressApp;
 }
 
+// Get user by JWT token from request
+export const getMeFromReq = async (req) => {
+    let me = null;
+    const token = req.headers['x-token'];
+    if (token) {
+        logger.debug(`Request with x-token = '${token}'.`);
+        const token_payload = await jwt.verify(token, process.env.JWT_SECRET);
+        logger.debug(`   JWT token payload: ${JSON.stringify(token_payload)}`);
+        me = await models.User.findByPk(token_payload.user_id);
+        logger.debug(`   Me = ${JSON.stringify(me)}`);
+    }
+    return me;
+}
+
 // Create Apollo GraphQL Server
 export const createApolloServer = () => {
     const typeDefs = require("fs").readFileSync(__dirname+ "/schema.graphqls", "utf8");
 
+    const dataLoaders = {
+        bookById: new DataLoader(keys => loaders.loaderBooksById(keys, models)),
+        bookByAuthorId: new DataLoader(keys => loaders.loaderBooksByAuthorId(keys, models)),
+        commentByBookId: new DataLoader(keys => loaders.loaderCommentsByBookId(keys,models)),
+        authorById: new DataLoader(keys => loaders.loaderAuthorsById(keys,models)),
+        userById: new DataLoader(keys => loaders.loaderUsersById(keys,models))
+    }
+
     const apolloServer = new ApolloServer({
         typeDefs: typeDefs,
-        resolvers,
+        resolvers: resolvers,
+
         context: async ({req, res}) =>{
-            if (req) {
-                // non-subscription calls
-                let me = null;
-                const token = req.headers['x-token'];
-                if (token) {
-                    logger.debug(`Request with x-token = '${token}'.`);
-                    const token_payload = await jwt.verify(token, process.env.JWT_SECRET);
-                    logger.debug(`   JWT token payload: ${JSON.stringify(token_payload)}`);
-                    me = await models.User.findByPk(token_payload.user_id);
-                    logger.debug(`   Me = ${JSON.stringify(me)}`);
-                }
-                return {
-                    models,
-                    me,
-                    loaders: {
-                        bookById: new DataLoader(keys => loaders.loaderBooksById(keys, models)),
-                        bookByAuthorId: new DataLoader(keys => loaders.loaderBooksByAuthorId(keys, models)),
-                        commentByBookId: new DataLoader(keys => loaders.loaderCommentsByBookId(keys,models)),
-                        authorById: new DataLoader(keys => loaders.loaderAuthorsById(keys,models)),
-                        userById: new DataLoader(keys => loaders.loaderUsersById(keys,models))
-                    },
-                }
-            } else {
-                // we get here when we use subscription query
-                return {
-                    models,
-                    loaders: {
-                        bookById: new DataLoader(keys => loaders.loaderBooksById(keys, models)),
-                        bookByAuthorId: new DataLoader(keys => loaders.loaderBooksByAuthorId(keys, models)),
-                        commentByBookId: new DataLoader(keys => loaders.loaderCommentsByBookId(keys,models)),
-                        authorById: new DataLoader(keys => loaders.loaderAuthorsById(keys,models)),
-                        userById: new DataLoader(keys => loaders.loaderUsersById(keys,models))
-                    },
-                }
-            }
+            const me = (req) ? await getMeFromReq(req) : null;
+            return {models, me, loaders: dataLoaders}
         },
 
         playground: true,
@@ -99,7 +89,7 @@ export const runApolloServerWithEngine = (graphql_port, expressApp, apolloServer
     return new Promise(function(resolve, reject) {
         const apolloEngine = new ApolloEngine({
             apiKey: process.env.ENGINE_API_KEY,
-            logging: {level: process.env.ENGINE_LOGGING_LEVAL},  // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
+            logging: {level: process.env.ENGINE_LOGGING_LEVEL},  // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
             stores: [{
                 name: 'inMemEmbeddedCache',
                 inMemory: {cacheSize: 104857600},  // 100 MB; defaults to 50MB.
@@ -126,14 +116,14 @@ export const start = async () => {
     //////////////////////////////////////////////////////////////////
     // Sequelize database ORM
     //////////////////////////////////////////////////////////////////
-    await ( async() => {
+    await ( async () => {
         logger.info("Connecting database...");
         const model = require("./model");
         await model.start();
         logger.info(`Database connected.`);
     })();
 
-    await ( async() => {
+    await ( async () => {
         if(process.env.DB_RECREATE === "true"){
             logger.info("Recreating database...");
             await sequelize.sync({force: true});
@@ -141,7 +131,7 @@ export const start = async () => {
         }
     })();
 
-    await ( async() => {
+    await ( async () => {
         if(process.env.DB_FILL_WITH_TESTDATA === "true") {
             logger.info(`Executing migrations on database...`);
             const migrations = require("./migrations");
@@ -154,7 +144,7 @@ export const start = async () => {
     // Apollo GraphQL Server with Apollo Engine (via proxy)
     //  https://www.apollographql.com/docs/references/engine-proxy.html
     //////////////////////////////////////////////////////////////////
-    await ( async() => {
+    await ( async () => {
         // Create Apollo GraphQL Server
         const apolloServer = createApolloServer();
 
@@ -164,19 +154,24 @@ export const start = async () => {
 
         // Start Apollo GraphQL Server
         const graphql_port = process.env.GRAPHQL_PORT;
-        if(process.env.ENGINE_API_KEY !== ''){
-            // Init Apollo Engine as proxy for GraphQL server if ENGINE_API_KEY key is provided
+        if(process.env.USE_APOLLO_ENGINE === "true")
+            // Init Apollo Engine as proxy for GraphQL server
             await runApolloServerWithEngine(graphql_port, expressApp, apolloServer);
-        } else {
+        else
             // Init Apollo GraphQL server directly
             await runApolloServer(graphql_port, expressApp, apolloServer);
-        }
+
     })();
 }
 
 export const stop = async () => {
-    if(global.apolloEngine != undefined)
+    if(global.apolloEngine != undefined) {
+        await ( async () => {
+            // Wait some sec before exit for engine to post data to server
+            return new Promise(resolve => {setTimeout(resolve, process.env.ENGINE_STOP_TIMEOUT_SEC * 1000)});
+        })();
         await global.apolloEngine.stop();
+    }
     if(global.expressHttpServer != undefined)
         await global.expressHttpServer.close();
     await global.sequelize.close();
