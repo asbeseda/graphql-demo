@@ -6,12 +6,12 @@ const postGraphQL = require("./test_api").postGraphQL;
 const loadJSONFile = require("./test_api").loadJSONFile;
 
 describe(`Test USERS`, () => {
-    before(function() {
-        app.start();
+    before(async function() {
+        await app.start();
     });
 
-    after(function() {
-        app.stop();
+    after(async function() {
+        await app.stop();
     });
 
     describe(`Test for unauthorized user`, () => {

@@ -1,6 +1,6 @@
 import {combineResolvers} from 'graphql-resolvers';
 import {isAdmin} from './authorization';
-import {ValidationError, AuthenticationError} from 'apollo-server';
+import {ValidationError, AuthenticationError} from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
 
 const createToken = async (user, secret, expiresIn) => {

@@ -1,6 +1,6 @@
 import {combineResolvers} from 'graphql-resolvers';
 import {hasOneOfRoles} from './authorization';
-import {ValidationError} from 'apollo-server';
+import {ValidationError} from 'apollo-server-express';
 
 export default {
     Query: {
