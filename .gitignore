@@ -7,3 +7,4 @@
 *.iws
 *.iml
 *.ipr
+/graphql-demo-apollo-minimal/node_modules

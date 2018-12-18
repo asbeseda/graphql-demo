@@ -1,0 +1,91 @@
+type User @cacheControl(maxAge: 30) {
+    id: String!
+    name: String!
+    login: String!                                                                                                  ## Role=[ADMIN]
+    password: String                                                                                                ## Role=[ADMIN]
+    roles: String                                                                                                   ## Role=[ADMIN]
+}
+
+type Token {
+    token: String!
+}
+
+type Author @cacheControl(maxAge: 30) {
+    id: String!
+    name: String!
+    biography: String
+    books: [Book] @cacheControl(maxAge: 30)
+}
+
+type Book  @cacheControl(maxAge: 30) {
+    id: String!
+    author: Author! @cacheControl(maxAge: 30)
+    releaseDate: String!
+    title: String!
+    description: String
+    comments: [Comment] @cacheControl(maxAge: 30)
+}
+
+type Comment @cacheControl(maxAge: 30) {
+    id: String!
+    book: Book! @cacheControl(maxAge: 30)
+    user: User! @cacheControl(maxAge: 30)
+    content: String
+
+    createdAt: String!
+    updatedAt: String
+}
+
+type Query {
+    users: [User] @cacheControl(maxAge: 30)                                                                         ## Role=[ADMIN]
+    books: [Book] @cacheControl(maxAge: 30)
+    authors: [Author] @cacheControl(maxAge: 30)
+    comments: [Comment] @cacheControl(maxAge: 30)
+
+    findUser(id: String, name: String) : User
+    findAuthor(id: String, name: String) : Author
+    findBook(id: String, title: String) : Book
+
+    whoami: User                                                                                                    ## Authenticated
+}
+
+type Mutation{
+    ## User oparations
+    signUp(name: String!, login: String!, password: String!): Token
+    setUserRoles(login: String!, roles: String!): User                                                              ## Role=[ADMIN]
+    signIn(login: String!, password: String!): Token
+
+    ## Author oparations
+    createAuthor(name: String!, biography: String): Author                                                          ## Role=[ADMIN, AUTHORS_CREATE]
+    changeAuthor(id: String!, name: String, biography: String): Author                                              ## Role=[ADMIN, AUTHORS_CHANGE]
+    deleteAuthor(id: String!): Boolean!                                                                             ## Role=[ADMIN, AUTHORS_DELETE]
+
+    ## Book oparations
+    createBook(authorId: String!, title: String!, releaseDate: String, description: String): Book                   ## Role=[ADMIN, BOOKS_CREATE]
+    changeBook(id: String!, authorId: String, title: String, releaseDate: String, description: String): Book        ## Role=[ADMIN, BOOKS_CHANGE]
+    deleteBook(id: String!): Boolean!                                                                               ## Role=[ADMIN, BOOKS_DELETE]
+
+    ## Comment oparations
+    createComment(bookId: String!, content: String!): Comment                                                       ## Authenticated
+    changeComment(id: String!, content: String!): Comment                                                           ## Role=[ADMIN, COMMENTS_CHANGE] + CREATOR
+    deleteComment(id: String!):Boolean!                                                                             ## Role=[ADMIN, COMMENTS_DELETE] + CREATOR
+
+}
+
+###########################################################
+## EVENTS
+###########################################################
+enum EventTypes {
+    COMMENT_ADDED,
+    COMMENT_CHANGED,
+    COMMENT_DELETED
+}
+
+type CommentEvent {
+    eventType: EventTypes!
+    comment: Comment!
+}
+
+type Subscription {
+    onComment(bookId: String, eventType: EventTypes): CommentEvent
+}
