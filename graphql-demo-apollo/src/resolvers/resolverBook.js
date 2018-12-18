@@ -1,64 +1,34 @@
-import {combineResolvers} from 'graphql-resolvers';
-import {hasOneOfRoles} from './authorization';
-import {ValidationError} from 'apollo-server-express';
-
 export default {
     Query: {
-        books: async (parent, args, { models }) => {
-            return await models.Book.findAll()
+        books: async (parent, {}, {me}) => {
+            return await services.Books.books({}, {me});
         },
 
-        findBook: async (parent, {id, title}, {models}) => {
-            if (id !== undefined)
-                return await models.Book.findByPk(id);
-            else if (title !== undefined)
-                return await models.Book.findOne({where: {title: title}});
-            else
-                throw new ValidationError(`Parameter 'id' or 'title' must be set`);
+        findBook: async (parent, {id, title}, {me}) => {
+            return await services.Books.findBook({id, title}, {me});
         },
     },
 
     Mutation: {
-        createBook: combineResolvers(
-            hasOneOfRoles(["ADMIN","BOOKS_CREATE"]),
-            async (parent, {authorId, title, releaseDate, description}, {models}) => {
-                return await models.Book.create({authorId: authorId, title: title, releaseDate: releaseDate, description: description})
-            }
-        ),
+        createBook: async (parent, {authorId, title, releaseDate, description}, {me}) => {
+            return await services.Books.createBook({authorId, title, releaseDate, description}, {me});
+        },
 
-        changeBook: combineResolvers(
-            hasOneOfRoles(["ADMIN","BOOKS_CHANGE"]),
-            async (parent, {id, authorId, title, releaseDate, description}, {models}) => {
-                const book = await models.Book.findByPk(id);
-                if(!book)
-                    throw new ValidationError(`Book with id=${id} not found`)
-                const newValues = {
-                    authorId:       authorId ? authorId : book.authorId,
-                    title:          title ? title : book.title,
-                    releaseDate:    releaseDate ? releaseDate : book.releaseDate,
-                    description:    description ? description : book.description
+        changeBook: async (parent, {id, authorId, title, releaseDate, description}, {me}) => {
+            return await services.Books.changeBook({id, authorId, title, releaseDate, description}, {me});
+        },
 
-                };
-                await book.update(newValues);
-                return await models.Book.findByPk(id);
-            }
-        ),
-
-        deleteBook: combineResolvers(
-            hasOneOfRoles(["ADMIN","BOOKS_DELETE"]),
-            async (parent, {id}, {models}) => {
-                const result = await models.Book.destroy({where:{id:id}, cascade: true});
-                return result;
-            }
-        ),
+        deleteBook: async (parent, {id}, {me}) => {
+            return await services.Books.deleteBook({id}, {me});
+        },
     },
 
     Book: {
-        author: async (book, args, {models, loaders}) => {
-            return await loaders.authorById.load(book.authorId);
+        author: async (book, {}, {me}) => {
+            return await dataLoaders.authorById.load(book.authorId);
         },
-        comments: async (book, args, {models, loaders}) => {
-            return await loaders.commentByBookId.load(book.id);
-        }
+        comments: async (book, {}, {me}) => {
+            return await dataLoaders.commentByBookId.load(book.id);
+        },
     },
 };

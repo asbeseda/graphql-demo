@@ -1,77 +1,47 @@
-import {combineResolvers} from 'graphql-resolvers';
-import {isAdmin} from './authorization';
-import {ValidationError, AuthenticationError} from 'apollo-server-express';
-import jwt from 'jsonwebtoken';
-
-const createToken = async (user, secret, expiresIn) => {
-    return await jwt.sign({user_id: user.id}, secret, {expiresIn});
-};
+import {isAdmin} from "../auth/checkAuth";
 
 export default {
     Query: {
-        users: combineResolvers(
-            isAdmin,
-            async (parent, args, { models }) => {
-                return await models.User.findAll()
-            }
-        ),
-
-        findUser: async (parent, {id, name}, {models}) => {
-            if(id !== undefined)
-                return await models.User.findByPk(id);
-            else if(name !== undefined)
-                return await models.User.findOne({where:{name:name}});
-            else
-                throw new ValidationError(`Parameter 'id' or 'name' must be set`);
+        whoami: async (parent, {}, {me}) => {
+            return await services.Users.whoami({}, {me})
         },
 
-        whoami: async (parent, args, {models, me}) => {
-            return me;
+        users: async (parent, {}, {me}) => {
+            return await services.Users.users({}, {me})
         },
+
+        findUser: async (parent, {id, name}, {me}) => {
+            return await services.Users.findUser({id, name}, {me})
+        },
+
     },
 
     Mutation: {
-        signUp: async (parent, {name, login, password}, {models}) => {
-            const user = await models.User.create({name: name, login: login, password: password, roles: 'users'});
-            const token = await createToken(user, process.env.JWT_SECRET, process.env.JWT_EXPIRES);
-            return {token: token};
+        signUp: async (parent, {name, login, password}, {me}) => {
+            return await services.Users.signUp({name, login, password}, {me})
         },
 
-        setUserRoles: combineResolvers(
-            isAdmin,
-            async (parent, {login, roles}, {models}) => {
-                const user = await models.User.findOne({where:{login:login}});
-                if(!user)
-                    throw new ValidationError(`User with login=${login} not found`)
-                await user.update({roles: roles});
-                return await models.User.findOne({where:{login:login}});
-            }
-        ),
+        setUserRoles: async (parent, {login, roles}, {me}) => {
+            return await services.Users.setUserRoles({login, roles}, {me})
+        },
 
-        signIn: async (parent, {login, password}, {models}) => {
-            const user = await models.User.findOne({where:{login:login}});
-            if(!user)
-                throw new AuthenticationError(`User with login=${login} not found`)
-            const isValid = await user.validatePassword(password);
-            if(!isValid)
-                throw new AuthenticationError(`Invalid password`)
-            const token = await createToken(user, process.env.JWT_SECRET, process.env.JWT_EXPIRES);
-            return {token: token};
+        signIn: async (parent, {login, password}, {me}) => {
+            return await services.Users.signIn({login, password}, {me})
         }
     },
 
     User: {
-        login: combineResolvers(
-            isAdmin,
-            async (user, args, {models}) => {return user.login;}
-        ),
-        password: combineResolvers(
-            isAdmin,
-            async (user, args, {models}) => {return user.password;}
-        ),
-        roles: combineResolvers(
-            isAdmin,
-            async (user, args, {models}) => {return user.roles;}
-        ),
+        login: async (user, {}, {me}) => {
+            isAdmin(me);
+            return user.login;
+        },
+        password: async (user, {}, {me}) => {
+            isAdmin(me);
+            return user.password;
+        },
+        roles: async (user, {}, {me}) => {
+            isAdmin(me);
+            return user.roles;
+        },
     },
 };

@@ -4,6 +4,7 @@ import express from 'express';
 import compression from 'compression';
 import {ApolloServer, PubSub} from 'apollo-server-express';
 import {ApolloEngine} from 'apollo-engine';
+import services from './services'
 import resolvers from './resolvers'
 import DataLoader from 'dataloader';
 import loaders from './loaders';
@@ -36,20 +37,22 @@ export const createApolloServer = () => {
     const typeDefs = require("fs").readFileSync(__dirname+ "/schema.graphqls", "utf8");
 
     const dataLoaders = {
-        bookById: new DataLoader(keys => loaders.loaderBooksById(keys, models)),
-        bookByAuthorId: new DataLoader(keys => loaders.loaderBooksByAuthorId(keys, models)),
-        commentByBookId: new DataLoader(keys => loaders.loaderCommentsByBookId(keys,models)),
-        authorById: new DataLoader(keys => loaders.loaderAuthorsById(keys,models)),
-        userById: new DataLoader(keys => loaders.loaderUsersById(keys,models))
+        bookById: new DataLoader(keys => loaders.loaderBooksById(keys)),
+        bookByAuthorId: new DataLoader(keys => loaders.loaderBooksByAuthorId(keys)),
+        commentByBookId: new DataLoader(keys => loaders.loaderCommentsByBookId(keys)),
+        authorById: new DataLoader(keys => loaders.loaderAuthorsById(keys)),
+        userById: new DataLoader(keys => loaders.loaderUsersById(keys))
     }
+    global.dataLoaders = dataLoaders;
 
     const apolloServer = new ApolloServer({
         typeDefs: typeDefs,
         resolvers: resolvers,
 
-        context: async ({req, res}) =>{
-            const me = (req) ? await getMeFromReq(req) : null;
-            return {models, me, loaders: dataLoaders}
+        context: async ({req, res}) => {
+            return {
+                me: (req) ? await getMeFromReq(req) : null
+            }
         },
 
         playground: true,
