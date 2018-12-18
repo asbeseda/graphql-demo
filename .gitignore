@@ -8,3 +8,4 @@
 *.iml
 *.ipr
 /graphql-demo-apollo-minimal/node_modules
+/graphql-demo-apollo-minimal/package-lock.json
