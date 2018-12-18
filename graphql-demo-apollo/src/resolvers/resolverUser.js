@@ -1,4 +1,5 @@
 import {isAdmin} from "../auth/checkAuth";
+import {services} from "../services";
 
 export default {
     Query: {

@@ -3,4 +3,9 @@ import resolverAuthor from './resolverAuthor'
 import resolverBook from './resolverBook'
 import resolverComment from './resolverComment'
 
-export default [resolverUser, resolverAuthor, resolverBook, resolverComment];
+export const resolvers = [
+    resolverUser,
+    resolverAuthor,
+    resolverBook,
+    resolverComment
+];

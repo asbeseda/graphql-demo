@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import {Sequelize} from 'sequelize';
 import logger from './../utils/logger';
 
 export const start = async () => {
@@ -38,11 +38,12 @@ export const start = async () => {
         Comment: sequelize.import('./comment'),
         User: sequelize.import('./user')
     };
+    global.models = models;
+
     Object.keys(models).forEach(key => {
         if ('associate' in models[key]) {
             models[key].associate(models);
         }
     });
 
-    global.models = models;
 };

@@ -4,11 +4,35 @@ import express from 'express';
 import compression from 'compression';
 import {ApolloServer, PubSub} from 'apollo-server-express';
 import {ApolloEngine} from 'apollo-engine';
-import services from './services'
-import resolvers from './resolvers'
-import DataLoader from 'dataloader';
-import loaders from './loaders';
+import {resolvers} from './resolvers'
 import jwt from 'jsonwebtoken';
+
+// Run DB
+export const runDB = async () => {
+    await ( async () => {
+        logger.info("Connecting database...");
+        const model = require("./model");
+        await model.start();
+        logger.info(`Database connected.`);
+    })();
+
+    await ( async () => {
+        if(process.env.DB_RECREATE === "true"){
+            logger.info("Recreating database...");
+            await sequelize.sync({force: true});
+            logger.info("Database recreated...");
+        }
+    })();
+
+    await ( async () => {
+        if(process.env.DB_FILL_WITH_TESTDATA === "true") {
+            logger.info(`Executing migrations on database...`);
+            const migrations = require("./migrations");
+            await migrations.start();
+            logger.info(`All migrations finished.`);
+        }
+    })();
+}
 
 // Create Express Server
 export const createExpressApp = () => {
@@ -35,15 +59,6 @@ export const getMeFromReq = async (req) => {
 // Create Apollo GraphQL Server
 export const createApolloServer = () => {
     const typeDefs = require("fs").readFileSync(__dirname+ "/schema.graphqls", "utf8");
-
-    const dataLoaders = {
-        bookById: new DataLoader(keys => loaders.loaderBooksById(keys)),
-        bookByAuthorId: new DataLoader(keys => loaders.loaderBooksByAuthorId(keys)),
-        commentByBookId: new DataLoader(keys => loaders.loaderCommentsByBookId(keys)),
-        authorById: new DataLoader(keys => loaders.loaderAuthorsById(keys)),
-        userById: new DataLoader(keys => loaders.loaderUsersById(keys))
-    }
-    global.dataLoaders = dataLoaders;
 
     const apolloServer = new ApolloServer({
         typeDefs: typeDefs,
@@ -119,29 +134,7 @@ export const start = async () => {
     //////////////////////////////////////////////////////////////////
     // Sequelize database ORM
     //////////////////////////////////////////////////////////////////
-    await ( async () => {
-        logger.info("Connecting database...");
-        const model = require("./model");
-        await model.start();
-        logger.info(`Database connected.`);
-    })();
-
-    await ( async () => {
-        if(process.env.DB_RECREATE === "true"){
-            logger.info("Recreating database...");
-            await sequelize.sync({force: true});
-            logger.info("Database recreated...");
-        }
-    })();
-
-    await ( async () => {
-        if(process.env.DB_FILL_WITH_TESTDATA === "true") {
-            logger.info(`Executing migrations on database...`);
-            const migrations = require("./migrations");
-            await migrations.start();
-            logger.info(`All migrations finished.`);
-        }
-    })();
+    await runDB();
 
     //////////////////////////////////////////////////////////////////
     // Apollo GraphQL Server with Apollo Engine (via proxy)
@@ -175,7 +168,9 @@ export const stop = async () => {
         })();
         await global.apolloEngine.stop();
     }
+
     if(global.expressHttpServer != undefined)
         await global.expressHttpServer.close();
+
     await global.sequelize.close();
 }

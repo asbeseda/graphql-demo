@@ -1,3 +1,6 @@
+import {services} from "../services";
+import {dataLoaders} from "../loaders";
+
 export default {
     Query: {
         books: async (parent, {}, {me}) => {
@@ -25,10 +28,10 @@ export default {
 
     Book: {
         author: async (book, {}, {me}) => {
-            return await dataLoaders.authorById.load(book.authorId);
+            return await dataLoaders.authorsByIds.load(book.authorId);
         },
         comments: async (book, {}, {me}) => {
-            return await dataLoaders.commentByBookId.load(book.id);
+            return await dataLoaders.commentsByBookIds.load(book.id);
         },
     },
 };
