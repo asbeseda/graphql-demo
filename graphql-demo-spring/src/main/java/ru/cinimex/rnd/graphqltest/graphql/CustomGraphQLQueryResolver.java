@@ -30,7 +30,7 @@ public class CustomGraphQLQueryResolver implements GraphQLQueryResolver  {
 
 
     public CustomGraphQLQueryResolver(){
-        log.debug("GraphQLResolver bean initialing [CustomResolver]...");
+        log.debug("GraphQLResolver bean initialing for <Query>...");
     }
 
     /////////////////////////////////////////////////////////////

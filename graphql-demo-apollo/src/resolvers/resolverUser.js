@@ -18,8 +18,8 @@ export default {
     },
 
     Mutation: {
-        signUp: async (parent, {name, login, password}, {me}) => {
-            return await services.Users.signUp({name, login, password}, {me})
+        signUp: async (parent, {id, name, login, password}, {me}) => {
+            return await services.Users.signUp({id, name, login, password}, {me})
         },
 
         setUserRoles: async (parent, {login, roles}, {me}) => {

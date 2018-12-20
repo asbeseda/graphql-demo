@@ -4,6 +4,7 @@ import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import graphql.GraphQLException;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Cache;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
@@ -29,15 +30,16 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
     @Autowired private CommentsService commentsService;
 
     public CustomGraphQLMutationResolver(){
-        log.debug("GraphQLResolver bean initialing [CustomResolver]...");
+        log.debug("GraphQLResolver bean initialing for <Mutation>...");
     }
 
     /////////////////////////////////////////////////////////////
     // AUTHORS
     /////////////////////////////////////////////////////////////
-    public Author createAuthor(String name, String biography) {
+    public Author createAuthor(String id, String name, String biography) {
         Author newAuthor =
             Author.builder()
+                .id(new ObjectId(id))
                 .name(name)
                 .biography(biography)
             .build();
@@ -65,12 +67,13 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
     /////////////////////////////////////////////////////////////
     // BOOKS
     /////////////////////////////////////////////////////////////
-    public Book createBook(String authorId, String title, String releaseDate, String description) {
+    public Book createBook(String id, String authorId, String title, String releaseDate, String description) {
         Author author = authorsService.findAuthorById(authorId);
         if(author==null)
             throw new GraphQLException("Author for book not found.");
         Book newBook =
             Book.builder()
+                .id(new ObjectId(id))
                 .author(author)
                 .title(title)
                 .releaseDate(releaseDate)
@@ -106,12 +109,13 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
     /////////////////////////////////////////////////////////////
     // COMMENTS
     /////////////////////////////////////////////////////////////
-    public Comment createComment(String bookId, String content) {
+    public Comment createComment(String id, String bookId, String content) {
         Book book = booksService.findBookById(bookId);
         if(book==null)
             throw new GraphQLException("Book not found.");
         Comment newComment =
             Comment.builder()
+                .id(new ObjectId(id))
                 .book(book)
                 .content(content)
             .build();

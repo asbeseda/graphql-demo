@@ -33,17 +33,17 @@ type Query {
 
 type Mutation{
     ## Author oparations
-    createAuthor(name: String!, biography: String): Author
+    createAuthor(id: String, name: String!, biography: String): Author
     changeAuthor(id: String!, name: String, biography: String): Author
     deleteAuthor(id: String!): Boolean!
 
     ## Book oparations
-    createBook(authorId: String!, title: String!, releaseDate: String, description: String): Book
+    createBook(id: String, authorId: String!, title: String!, releaseDate: String, description: String): Book
     changeBook(id: String!, authorId: String, title: String, releaseDate: String, description: String): Book
     deleteBook(id: String!): Boolean!
 
     ## Comment oparations
-    createComment(bookId: String!, content: String!): Comment
+    createComment(id: String, bookId: String!, content: String!): Comment
     changeComment(id: String!, content: String!): Comment
     deleteComment(id: String!):Boolean!
 }

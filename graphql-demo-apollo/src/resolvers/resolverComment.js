@@ -10,8 +10,8 @@ export default {
     },
 
     Mutation: {
-        createComment: async (parent, {bookId, content}, {me}) => {
-            return await services.Comments.createComment({bookId, content}, {me});
+        createComment: async (parent, {id, bookId, content}, {me}) => {
+            return await services.Comments.createComment({id, bookId, content}, {me});
         },
 
         changeComment: async (parent, {id, bookId, content}, {me}) => {

@@ -13,8 +13,8 @@ export default {
     },
 
     Mutation: {
-        createAuthor: async (parent, {name, biography}, {me}) => {
-            return await services.Authors.createAuthor({name, biography}, {me});
+        createAuthor: async (parent, {id, name, biography}, {me}) => {
+            return await services.Authors.createAuthor({id, name, biography}, {me});
         },
 
         changeAuthor: async (parent, {id, name, biography}, {me}) => {

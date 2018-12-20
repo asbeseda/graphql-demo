@@ -51,22 +51,22 @@ type Query {
 
 type Mutation{
     ## User oparations
-    signUp(name: String!, login: String!, password: String!): Token
+    signUp(id: String, name: String!, login: String!, password: String!): Token
     setUserRoles(login: String!, roles: String!): User                                                              ## Role=[ADMIN]
     signIn(login: String!, password: String!): Token
 
     ## Author oparations
-    createAuthor(name: String!, biography: String): Author                                                          ## Role=[ADMIN, AUTHORS_CREATE]
+    createAuthor(id: String, name: String!, biography: String): Author                                              ## Role=[ADMIN, AUTHORS_CREATE]
     changeAuthor(id: String!, name: String, biography: String): Author                                              ## Role=[ADMIN, AUTHORS_CHANGE]
     deleteAuthor(id: String!): Boolean!                                                                             ## Role=[ADMIN, AUTHORS_DELETE]
 
     ## Book oparations
-    createBook(authorId: String!, title: String!, releaseDate: String, description: String): Book                   ## Role=[ADMIN, BOOKS_CREATE]
+    createBook(id: String, authorId: String!, title: String!, releaseDate: String, description: String): Book       ## Role=[ADMIN, BOOKS_CREATE]
     changeBook(id: String!, authorId: String, title: String, releaseDate: String, description: String): Book        ## Role=[ADMIN, BOOKS_CHANGE]
     deleteBook(id: String!): Boolean!                                                                               ## Role=[ADMIN, BOOKS_DELETE]
 
     ## Comment oparations
-    createComment(bookId: String!, content: String!): Comment                                                       ## Authenticated
+    createComment(id: String, bookId: String!, content: String!): Comment                                           ## Authenticated
     changeComment(id: String!, content: String!): Comment                                                           ## Role=[ADMIN, COMMENTS_CHANGE] + CREATOR
     deleteComment(id: String!):Boolean!                                                                             ## Role=[ADMIN, COMMENTS_DELETE] + CREATOR
 

@@ -13,8 +13,8 @@ export default {
     },
 
     Mutation: {
-        createBook: async (parent, {authorId, title, releaseDate, description}, {me}) => {
-            return await services.Books.createBook({authorId, title, releaseDate, description}, {me});
+        createBook: async (parent, {id, authorId, title, releaseDate, description}, {me}) => {
+            return await services.Books.createBook({id, authorId, title, releaseDate, description}, {me});
         },
 
         changeBook: async (parent, {id, authorId, title, releaseDate, description}, {me}) => {

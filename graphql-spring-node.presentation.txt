@@ -32,8 +32,8 @@ GraphQL - спецификация
     https://habr.com/post/343872/                   - GraphQL — новый взгляд на API. Ч.1
 
 GraphQL JS Implementation
-    https://github.com/graphql/graphql-js       - facebook graphql server
-    https://facebook.github.io/relay/           - facebook graphql client
+    https://github.com/graphql/graphql-js       	- facebook graphql server
+    https://facebook.github.io/relay/           	- facebook graphql client
     
 Apollo
     https://www.apollographql.com/client				https://github.com/apollographql/apollo-client

@@ -1,0 +1,1 @@
+{"query":"mutation{createAuthor(id:\"author_1\",name:\"Author1\",biography:\"Author1 biography\"){id}}"}
