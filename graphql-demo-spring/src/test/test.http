@@ -4,19 +4,19 @@
 http://127.0.0.1:8080/graphql?query={__schema {types {name, fields {name}}}}
 Authorization: Basic user-noread user
 
-### Get all manufacturers via GET (read authority needed) - OK
-http://127.0.0.1:8080/graphql?query={manufacturers{name, description, carModels {name, description}}}
+### Get all books via GET (read authority needed) - OK
+http://127.0.0.1:8080/graphql?query={books{name, description, carModels {name, description}}}
 Authorization: Basic user-read user
 
-### Get all manufacturers via GET (read authority needed) - ERROR
-http://127.0.0.1:8080/graphql?query={manufacturers{name, description, carModels {name, description}}}
+### Get all books via GET (read authority needed) - ERROR
+http://127.0.0.1:8080/graphql?query={books{name, description, carModels {name, description}}}
 Authorization: Basic user-noread user
 
-### Get all manufacturers via POST
+### Get all books via POST
 POST http://127.0.0.1:8080/graphql
 Content-Type: application/json
 Authorization: Basic admin admin
 
-{"query": "{manufacturers{name, description, carModels {name, description}}}"}
+{"query": authors}
 
 ###

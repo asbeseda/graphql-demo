@@ -1,0 +1,98 @@
+type Author {
+    id: String!
+    name: String!
+    biography: String
+    books: [Book]
+}
+
+type Book {
+    id: String!
+    author: Author!
+    title: String!
+    releaseDate: String!
+    description: String
+    comments: [Comment]
+}
+
+type Comment {
+    id: String!
+    book: Book!
+    content: String
+}
+
+type Query {
+    authors: [Author]
+    books: [Book]
+    comments: [Comment]
+
+    findAuthor(id: String, name: String) : Author
+    findBook(id: String, title: String) : Book
+
+    cachies(name: String): [Cache]
+}
+
+type Mutation{
+    ## Author oparations
+    createAuthor(name: String!, biography: String): Author
+    changeAuthor(id: String!, name: String, biography: String): Author
+    deleteAuthor(id: String!): Boolean!
+
+    ## Book oparations
+    createBook(authorId: String!, title: String!, releaseDate: String, description: String): Book
+    changeBook(id: String!, authorId: String, title: String, releaseDate: String, description: String): Book
+    deleteBook(id: String!): Boolean!
+
+    ## Comment oparations
+    createComment(bookId: String!, content: String!): Comment
+    changeComment(id: String!, content: String!): Comment
+    deleteComment(id: String!):Boolean!
+}
+
+######################################################
+# CACHE
+######################################################
+type Cache {
+    name: String!
+    configuration: CacheConfiguration!
+    statistics: CacheStatistics!
+    keys: [String]
+}
+
+type CacheConfiguration {
+    timeToIdleSeconds: Long
+    timeToLiveSeconds: Long
+
+    maxBytesLocalHeap: Long
+    maxBytesLocalOffHeap: Long
+    maxBytesLocalDisk: Long
+
+    maxEntriesInCache: Long
+    maxEntriesLocalHeap: Long
+    maxEntriesLocalDisk: Long
+}
+
+type CacheStatistics {
+    localHeapSize: Long
+    localOffHeapSize: Long
+    localDiskSize: Long
+
+    localHeapSizeInBytes: Long
+    localOffHeapSizeInBytes: Long
+    localDiskSizeInBytes: Long
+
+    cacheHitRatio: Float
+    cacheHitCount: Long
+    localHeapHitCount: Long
+    localOffHeapHitCount: Long
+    localDiskHitCount: Long
+
+    cacheMissCount: Long
+    cacheMissNotFoundCount: Long
+    cacheMissExpiredCount: Long
+
+    cachePutCount: Long
+    cachePutAddedCount: Long
+    cachePutUpdatedCount: Long
+
+    cacheRemoveCount: Long
+}

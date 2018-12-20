@@ -1,4 +1,4 @@
-package ru.cinimex.rnd.graphqltest.model.documents.services;
+package ru.cinimex.rnd.graphqltest.model.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class SecurityLogger {
     @Before(
-        "execution(* ru.cinimex.rnd.graphqltest.model.documents.services.CarModelService.*(..)) ||"+
-        "execution(* ru.cinimex.rnd.graphqltest.model.documents.services.ManufacturerService.*(..))"
+        "execution(* ru.cinimex.rnd.graphqltest.model.services.mongo.BooksService.*(..)) ||"+
+        "execution(* ru.cinimex.rnd.graphqltest.model.services.mongo.AuthorsService.*(..))"
     )
     public void logBeforeAllMethods(JoinPoint joinPoint) {
         if(!log.isTraceEnabled())

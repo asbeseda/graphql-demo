@@ -10,23 +10,29 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
-@Document(collection = "carModels")
-public class CarModel {
-
+@Document(collection = "books")
+public class Book {
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
 
     @DBRef
-    private Manufacturer manufacturer;
+    private Author author;
 
     @NotBlank
-    @Indexed(name="idx_carModels_name", unique=true)
-    private String name;
+    @Indexed(name="idx_books_title", unique=true)
+    private String title;
+
+    @NotBlank
+    private String releaseDate;
 
     private String description;
+
+    @DBRef
+    private List<Comment> comments;
 
     @Override
     public String toString() {
@@ -34,8 +40,10 @@ public class CarModel {
             .append("{")
                 .append("\"class\": \"").append(getClass().getSimpleName()).append("\", ")
                 .append("\"id\": \"").append(id).append("\", ")
-                .append("\"manufacturer\": \"").append(manufacturer!=null ? manufacturer.getName() : null).append("\",")
-                .append("\"name\": \"").append(name).append("\",")
+                .append("\"author\": \"").append(author).append("\", ")
+                .append("\"title\": \"").append(title).append("\",")
+                .append("\"releaseDate\": \"").append(releaseDate).append("\",")
+                .append("\"description\": \"").append(description).append("\",")
             .append("}")
         .toString();
     }

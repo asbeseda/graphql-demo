@@ -11,6 +11,7 @@ public class ApplicationContextCreateTest {
 
     @Test
     public void contextLoads() {
+
     }
 
 }

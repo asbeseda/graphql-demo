@@ -12,31 +12,31 @@ http://127.0.0.1:8080/graphql_manual
         "tracing.hideTracingResponse": false
 
 ## Список всех производителей и моделей
-    {manufacturers{name, description, carModels{name, description}}}
+    {books{name, description, authors{name, description}}}
 
 ## Добавление нового производителя
     {manufacturerNew(new: {name: "Toyota", description: "Toyota description"}) {id, name, description}}
     {manufacturerNew(new: {name: "Honda", description: "Honda description"}) {id, name, description}}
 
 ## Добавление новых моделей
-    {carModelNew(manufacturer: "Toyota", new: {name: "Avensis", description: ""}) {id, name, description}}
-    {carModelNew(manufacturer: "Toyota", new: {name: "Camry", description: ""}) {id, name, description}}
-    {carModelNew(manufacturer: "Toyota", new: {name: "Corolla", description: ""}) {id, name, description}}
+    {carModelNew(book: "Toyota", new: {name: "Avensis", description: ""}) {id, name, description}}
+    {carModelNew(book: "Toyota", new: {name: "Camry", description: ""}) {id, name, description}}
+    {carModelNew(book: "Toyota", new: {name: "Corolla", description: ""}) {id, name, description}}
 
 ## Выбор одного производителя по имени
-    {manufacturer(name: "Toyota"){name, description, carModels{name, description}}}
+    {book(name: "Toyota"){name, description, authors{name, description}}}
 
 ## Выбор определенной модели одного производителя по имени
-    {manufacturer(name: "Toyota"){name, description, carModel(name: "Avensis"){name, description}}}
+    {book(name: "Toyota"){name, description, author(name: "Avensis"){name, description}}}
 
 
 ## Удаление производителя
-    {manufacturer(name:"Honda"){delete(confirm:SURE)}}
+    {book(name:"Honda"){delete(confirm:SURE)}}
 
 ## Изменение описания для производителя
     fragment ManufacturerFields on Manufacturer{id, name, description}
     query updateManufacturerDescription($name: String, $description: String){
-      manufacturer(name: $name){
+      book(name: $name){
         ...ManufacturerFields
         update(update:{
           description: $description
