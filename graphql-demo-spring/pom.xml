@@ -83,7 +83,6 @@
 
         <!-- GraphQL, for usage see
             https://github.com/graphql-java/graphql-spring-boot
-            https://www.codenotfound.com/graphql-java-spring-boot-example.html
         -->
         <dependency>
             <groupId>com.graphql-java</groupId>

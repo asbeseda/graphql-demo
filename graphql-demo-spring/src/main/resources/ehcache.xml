@@ -5,33 +5,8 @@
          monitoring="autodetect"
          dynamicConfig="true">
 
-    <cache name="authors_all"
-           maxElementsInMemory="1" eternal="false" overflowToDisk="false"
-           timeToLiveSeconds="300" timeToIdleSeconds="0" memoryStoreEvictionPolicy="LFU" transactionalMode="off">
-    </cache>
-
-    <cache name="authors"
-           maxElementsInMemory="100" eternal="false" overflowToDisk="false"
-           timeToLiveSeconds="300" timeToIdleSeconds="0" memoryStoreEvictionPolicy="LFU" transactionalMode="off">
-    </cache>
-
-    <cache name="books_all"
-           maxElementsInMemory="1" eternal="false" overflowToDisk="false"
-           timeToLiveSeconds="300" timeToIdleSeconds="0" memoryStoreEvictionPolicy="LFU" transactionalMode="off">
-    </cache>
-
-    <cache name="books"
-           maxElementsInMemory="100" eternal="false" overflowToDisk="false"
-           timeToLiveSeconds="300" timeToIdleSeconds="0" memoryStoreEvictionPolicy="LFU" transactionalMode="off">
-    </cache>
-
-    <cache name="comments_all"
-           maxElementsInMemory="1" eternal="false" overflowToDisk="false"
-           timeToLiveSeconds="300" timeToIdleSeconds="0" memoryStoreEvictionPolicy="LFU" transactionalMode="off">
-    </cache>
-
-    <cache name="comments"
-           maxElementsInMemory="100" eternal="false" overflowToDisk="false"
+    <cache name="app_cache"
+           maxElementsInMemory="1000" eternal="false" overflowToDisk="false"
            timeToLiveSeconds="300" timeToIdleSeconds="0" memoryStoreEvictionPolicy="LFU" transactionalMode="off">
     </cache>
 

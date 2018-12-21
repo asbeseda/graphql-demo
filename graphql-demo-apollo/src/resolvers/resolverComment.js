@@ -1,6 +1,7 @@
+import services from "../services";
+import dataLoaders from "../loaders";
+
 import {withFilter} from 'graphql-subscriptions';
-import {services} from "../services";
-import {dataLoaders} from "../loaders";
 
 export default {
     Query: {
@@ -40,10 +41,10 @@ export default {
 
     Comment: {
         book: async (comment, {}, {me}) => {
-            return await dataLoaders.booksByIds.load(comment.bookId);
+            return dataLoaders.booksByIds.load(comment.bookId);
         },
         user: async (comment, {}, {me}) => {
-            return await dataLoaders.usersByIds.load(comment.userId);
+            return dataLoaders.usersByIds.load(comment.userId);
         },
     }
 };

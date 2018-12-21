@@ -20,8 +20,8 @@ type Author @cacheControl(maxAge: 30) {
 type Book  @cacheControl(maxAge: 30) {
     id: String!
     author: Author! @cacheControl(maxAge: 30)
-    releaseDate: String!
     title: String!
+    releaseDate: String
     description: String
     comments: [Comment] @cacheControl(maxAge: 30)
 }

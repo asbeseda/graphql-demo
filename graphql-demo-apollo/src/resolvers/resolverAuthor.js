@@ -1,10 +1,10 @@
-import {services} from "../services";
-import {dataLoaders} from "../loaders";
+import services from "../services";
+import dataLoaders from "../loaders";
 
 export default {
     Query: {
         authors: async (parent, {}, {me}) => {
-            return await services.Author.authors({}, {me});
+            return await services.Authors.authors({}, {me});
         },
 
         findAuthor: async (parent, {id, name}, {me}) => {

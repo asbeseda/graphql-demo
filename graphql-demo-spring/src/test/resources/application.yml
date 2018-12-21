@@ -15,3 +15,9 @@ logging:
     root: INFO
     ru.cinimex: TRACE
 
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    tracing-enabled: true

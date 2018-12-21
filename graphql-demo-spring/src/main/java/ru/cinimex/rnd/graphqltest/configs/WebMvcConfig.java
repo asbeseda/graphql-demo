@@ -36,7 +36,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("index.html");
         registry.addViewController("/login").setViewName("login.html");
         registry.addViewController("/graphiql").setViewName("graphiql.html");
-        registry.addViewController("/graphiql_manual").setViewName("graphiql_manual.html");
         registry.addViewController("/graphql-docs").setViewName("graphql-docs.html");
         registry.addViewController("/graphql-playground").setViewName("graphql-playground.html");
         registry.addViewController("/graphql-voyager").setViewName("graphql-voyager.html");

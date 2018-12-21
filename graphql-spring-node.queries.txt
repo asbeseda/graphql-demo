@@ -5,71 +5,83 @@ http://localhost:8080/
 http://localhost:8080/graphql/schema.json
 
 
-## Получение данных
-query{
-  authors{
-    id, name, biography
-    books {
-      id, title, releaseDate, description
-      comments {
-        id, content
+########################################
+## QUERY
+########################################
+    query{
+      authors{
+        id, name, biography
+        books {
+          id, title, releaseDate, description
+          comments {
+            id, content
+          }
+        }
       }
     }
-  }
-}
 
 
-## Добавление данных
-mutation{
-  createAuthor(
-    id: "000100000000000000000000"
-    name: "Author1",
-  	biography: "Author1 biography"
-  ){id}
-}
-mutation{
-  createAuthor(
-    id: "000200000000000000000000"
-    name: "Author2",
-  	biography: "Author2 biography"
-  ){id}
-}
+########################################
+## MUTATION
+########################################
+    mutation{
+      createAuthor(
+        id: "000100000000000000000000"
+        name: "Author1",
+        biography: "Author1 biography"
+      ){id}
+    }
+    mutation{
+      changeAuthor(
+        id: "000100000000000000000000"
+        name: "Author1 new name",
+        biography: "Author2 new biography"
+      ){id}
+    }
 
-mutation{
-  createBook(
-    id: "000100010000000000000000",
-    authorId: "000100000000000000000000",
-    title: "Book #1",
-    description: "Book #1 description"
-  ){id, title, author{id, name}}
-}
-mutation{
-  createBook(
-    id: "000100020000000000000000",
-    authorId: "000100000000000000000000",
-    title: "Book #2",
-    description: "Book #2 description"
-  ){id, title, author{id, name}}
-}
-mutation{
-  createBook(
-    id: "000100030000000000000000",
-    authorId: "000100000000000000000000",
-    title: "Book #3",
-    description: "Book #3 description"
-  ){id, title, author{id, name}}
-}
+    mutation{
+      createBook(
+        id: "000100010000000000000000",
+        authorId: "000100000000000000000000",
+        title: "Book #1",
+        description: "Book #1 description"
+      ){id, title, author{id, name}}
+    }
+    mutation{
+      createBook(
+        id: "000100020000000000000000",
+        authorId: "000100000000000000000000",
+        title: "Book #2",
+        description: "Book #2 description"
+      ){id, title, author{id, name}}
+    }
+    mutation{
+      createBook(
+        id: "000100030000000000000000",
+        authorId: "000100000000000000000000",
+        title: "Book #3",
+        description: "Book #3 description"
+      ){id, title, author{id, name}}
+    }
 
+    mutation{
+      createComment(
+        id: "000100010001000000000000",
+        bookId: "000100010000000000000000",
+        content: "Comment #1"
+      ){id}
+    }
+    mutation{
+      createComment(
+        id: "000100010002000000000000",
+        bookId: "000100010000000000000000",
+        content: "Comment #2"
+      ){id}
+    }
 
-
-
-## HTTP header для graphql-playground
-    {"Authorization": "Basic admin admin"}
-    В параметрах надо установить:
-        "request.credentials": "include"
-        "tracing.hideTracingResponse": false
-
+########################################
 ## CACHE
+########################################
     fragment CacheConfigurationFields on CacheConfiguration{
       timeToIdleSeconds, timeToLiveSeconds,
       maxBytesLocalHeap, maxBytesLocalOffHeap, maxBytesLocalDisk,
@@ -85,4 +97,35 @@ mutation{
         configuration{...CacheConfigurationFields}
         statistics{...CacheStatisticsFields}
       }
+    }
+
+########################################
+## Login
+########################################
+    mutation {signIn(login: "admin", password: "admin"){token}}
+
+    полученный токен необходимо передавать в header последующих запросов ('HTTP HEADERS' в тестовой консоли внизу слева)
+    {"x-token": "....."}
+
+########################################
+## SUBSCRIPTION
+########################################
+    subscription {
+      onComment{
+        eventType,
+        comment{
+          id,
+          book {id, author {id, name}}
+          user {name}
+          content,
+          createdAt
+        }
+      }
+    }
+
+    mutation{
+      createComment(
+        bookId: "book_1_1",
+        content: "Comment XXXXXXX"
+      ){id}
     }

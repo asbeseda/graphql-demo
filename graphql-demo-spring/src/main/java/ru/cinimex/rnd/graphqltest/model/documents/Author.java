@@ -25,7 +25,7 @@ public class Author {
 
     private String biography;
 
-    @DBRef
+    @DBRef(lazy = false)
     private List<Book> books;
 
     @Override

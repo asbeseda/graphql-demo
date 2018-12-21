@@ -1,10 +1,11 @@
 import {} from './config'
 import logger from './utils/logger';
+import http from 'http';
 import express from 'express';
 import compression from 'compression';
 import {ApolloServer, PubSub} from 'apollo-server-express';
 import {ApolloEngine} from 'apollo-engine';
-import {resolvers} from './resolvers'
+import resolvers from './resolvers'
 import jwt from 'jsonwebtoken';
 
 // Run DB
@@ -94,11 +95,10 @@ export const createApolloServer = () => {
 // Init Apollo GraphQL server directly
 export const runApolloServer = (graphql_port, expressApp, apolloServer) => {
     return new Promise(function(resolve, reject) {
-        const expressHttpServer =  expressApp.listen({port: graphql_port}, () => {
+        httpServer.listen({port: graphql_port}, () => {
             logger.info(`Apollo GraphQL Server are fully ready at http://localhost:${graphql_port}${apolloServer.graphqlPath}`);
             resolve(true);
         });
-        global.expressHttpServer = expressHttpServer;
     });
 }
 
@@ -148,6 +148,11 @@ export const start = async () => {
         const expressApp = createExpressApp();
         apolloServer.applyMiddleware({app: expressApp});
 
+        // Register Subscription
+        const httpServer = http.createServer(expressApp);
+        apolloServer.installSubscriptionHandlers(httpServer);
+        global.httpServer = httpServer;
+
         // Start Apollo GraphQL Server
         const graphql_port = process.env.GRAPHQL_PORT;
         if(process.env.USE_APOLLO_ENGINE === "true")
@@ -169,8 +174,8 @@ export const stop = async () => {
         await global.apolloEngine.stop();
     }
 
-    if(global.expressHttpServer != undefined)
-        await global.expressHttpServer.close();
+    if(global.httpServer != undefined)
+        await global.httpServer.close();
 
     await global.sequelize.close();
 }

@@ -34,7 +34,7 @@ public class ModelDocumentsTest {
     public void t0010_addMongoDB_Author() {
         // Add Author
         author_1 = Author.builder().name("author_1").biography("author_1_biography").build();
-        author_1 = authorsService.save(author_1);
+        author_1 = authorsService.create(author_1);
         // Get Author by Id
         Author find_author = authorsService.findAuthorById(author_1.getId().toHexString());
         assertTrue("Find result must be not null", find_author!=null);

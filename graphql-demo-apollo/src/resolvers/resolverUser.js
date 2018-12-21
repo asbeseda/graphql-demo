@@ -1,5 +1,7 @@
+import services from "../services";
+import dataLoaders from "../loaders";
+
 import {isAdmin} from "../auth/checkAuth";
-import {services} from "../services";
 
 export default {
     Query: {

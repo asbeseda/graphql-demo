@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
 
-    @Autowired private ApplicationContext appContext;
     @Autowired private AuthorsService authorsService;
     @Autowired private BooksService booksService;
     @Autowired private CommentsService commentsService;
@@ -43,7 +42,7 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
                 .name(name)
                 .biography(biography)
             .build();
-        return authorsService.save(newAuthor);
+        return authorsService.create(newAuthor);
     }
 
     public Author changeAuthor(String id, String name, String biography) {
@@ -52,7 +51,7 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
             throw new GraphQLException("Author to change not found.");
         oldAuthor.setName(name);
         oldAuthor.setBiography(biography);
-        return authorsService.save(oldAuthor);
+        return authorsService.change(oldAuthor);
     }
 
     public boolean deleteAuthor(String id) {
@@ -79,7 +78,7 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
                 .releaseDate(releaseDate)
                 .description(description)
             .build();
-        return booksService.save(newBook);
+        return booksService.create(newBook);
     }
 
     public Book changeBook(String id, String authorId, String title, String releaseDate, String description) {
@@ -95,7 +94,7 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
         oldBook.setTitle(title);
         oldBook.setReleaseDate(releaseDate);
         oldBook.setDescription(description);
-        return booksService.save(oldBook);
+        return booksService.change(oldBook);
     }
 
     public boolean deleteBook(String id) {
@@ -119,7 +118,7 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
                 .book(book)
                 .content(content)
             .build();
-        return commentsService.save(newComment);
+        return commentsService.create(newComment);
     }
 
     public Comment changeComment(String id, String content) {
@@ -127,7 +126,7 @@ public class CustomGraphQLMutationResolver implements GraphQLMutationResolver {
         if(oldComment==null)
             throw new GraphQLException("Comment to change not found.");
         oldComment.setContent(content);
-        return commentsService.save(oldComment);
+        return commentsService.change(oldComment);
     }
 
     public boolean deleteComment(String id) {

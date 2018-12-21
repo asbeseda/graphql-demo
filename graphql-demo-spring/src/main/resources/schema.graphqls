@@ -9,7 +9,7 @@ type Book {
     id: String!
     author: Author!
     title: String!
-    releaseDate: String!
+    releaseDate: String
     description: String
     comments: [Comment]
 }

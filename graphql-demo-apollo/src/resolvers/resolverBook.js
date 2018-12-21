@@ -1,5 +1,5 @@
-import {services} from "../services";
-import {dataLoaders} from "../loaders";
+import services from "../services";
+import dataLoaders from "../loaders";
 
 export default {
     Query: {

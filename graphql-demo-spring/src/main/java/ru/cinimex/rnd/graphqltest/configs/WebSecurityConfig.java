@@ -40,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .authorizeRequests()
                 .antMatchers("/graphql").authenticated()
-                .antMatchers("/graphql_manual").authenticated()
                 .antMatchers("/**").permitAll()
             .and()
             .formLogin()

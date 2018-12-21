@@ -31,7 +31,7 @@ public class Book {
 
     private String description;
 
-    @DBRef
+    @DBRef(lazy = false)
     private List<Comment> comments;
 
     @Override

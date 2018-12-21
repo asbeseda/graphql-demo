@@ -24,13 +24,14 @@ public class GraphQLTest {
         String new_author_1_json = IOUtils.toString(classLoader.getResourceAsStream("testdata/new_author_1.json"), "UTF-8");
 
         given()
+            .header("Authorization", "Basic admin admin")
             .contentType(ContentType.JSON)
             .body(new_author_1_json)
             .log().all()
-            .expect()
-            .statusCode(200)
+            .when().post("/graphql")
+            .then()
             .log().all()
-            .when().post("http://localhost:8080/graphql");
+            .statusCode(200);
     }
 
 }
